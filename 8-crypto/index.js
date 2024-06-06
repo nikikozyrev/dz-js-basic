@@ -11,7 +11,7 @@ function crypto(password) {
 }
 
 const checkPassword = (cryptoPassword, password) =>
-  crypto(cryptoPassword) === password ? true : false;
+  !cryptoPassword ? false : crypto(cryptoPassword) === password;
 
 console.log(crypto(str));
-console.log(checkPassword("ssapdrow", str));
+console.log(checkPassword("", ""));
