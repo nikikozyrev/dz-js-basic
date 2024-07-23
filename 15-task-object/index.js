@@ -3,44 +3,59 @@
 const sortTypeId = "id";
 const sortTypePriority = "priority";
 
-const sortLowToHigh = "LowToHigh";
-const sortHighToLow = "HighToLow";
+const sortLowToHigh = true;
+const sortHighToLow = false;
+
+function getCounter() {
+  let counter = 1;
+  return function () {
+    return ++counter;
+  };
+}
+let idCount = getCounter();
 
 const toDoList = {
   tasks: [{ title: "Помыть посуду", id: 1, priority: 1 }],
-  addTask: function (title, priority) {
-    this.tasks.push({
-      title,
-      id: this.tasks[this.tasks.length - 1].id + 1,
-      priority,
-    });
+  addTask(title, priority) {
+    if (!title || !priority) {
+      console.log("Введите заголовок и приоритет!");
+    } else {
+      this.tasks.push({
+        title,
+        id: idCount(),
+        priority,
+      });
+    }
   },
-  findIndexTask: function (id) {
+  findIndexTask(id) {
     return this.tasks.findIndex((el) => el.id === id);
   },
-  deleteTask: function (id) {
-    this.tasks.splice(this.findIndexTask(id), 1);
+  deleteTask(id) {
+    if (!this.findIndexTask(id)) {
+      console.log(`Элемента с id=${id} не существует`);
+      return;
+    } else {
+      this.tasks.splice(this.findIndexTask(id), 1);
+    }
   },
-  updateTask: function (id, title, priority) {
-    this.tasks[this.findIndexTask(id)].title = title;
-    this.tasks[this.findIndexTask(id)].priority = priority;
+  updateTask(id, title, priority) {
+    if (!this.findIndexTask(id)) {
+      console.log(`Элемента с id=${id} не существует`);
+      return;
+    } else if (!title || !priority) {
+      console.log("Введите заголовок и приоритет!");
+    } else {
+      this.tasks[this.findIndexTask(id)].title = title;
+      this.tasks[this.findIndexTask(id)].priority = priority;
+    }
   },
-  sortTasks: function (sortType, sortOrder) {
-    switch (sortOrder) {
-      case "LowToHigh":
-        switch (sortType) {
-          case "id":
-            this.tasks.sort((a, b) => a.id - b.id);
-          case "priority":
-            this.tasks.sort((a, b) => a.priority - b.priority);
-        }
-      case "HighToLow":
-        switch (sortType) {
-          case "id":
-            this.tasks.sort((a, b) => b.id - a.id);
-          case "priority":
-            this.tasks.sort((a, b) => b.priority - a.priority);
-        }
+  sortTasks(sortType, sortOrder) {
+    if (sortType !== "id" && sortType !== "priority") {
+      console.log("Не могу сортировать");
+    } else {
+      this.tasks.sort((a, b) =>
+        sortOrder ? a[sortType] - b[sortType] : b[sortType] - a[sortType]
+      );
     }
   },
 };
@@ -51,7 +66,7 @@ toDoList.addTask("Убраться", 10);
 toDoList.addTask("Покушать", 3);
 toDoList.addTask("Покататься", 5);
 toDoList.addTask("Сделать домашку", 8);
-console.log("Добавили 3 задачи: ", toDoList.tasks);
+console.log("Добавили 4 задачи: ", toDoList.tasks);
 
 toDoList.deleteTask(3);
 console.log("Удалили задачу с id = 3: ", toDoList.tasks);
