@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.webp" type="image/x-icon" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="main">
+      <div class="container">
+        <div class="calculator">
+          <h1 class="title">Калькулятор</h1>
+          <div class="inputs-container">
+            <input
+              class="input"
+              type="number"
+              id="input-1"
+              placeholder="первое число"
+            />
+            <input
+              class="input"
+              type="number"
+              id="input-2"
+              placeholder="второе число"
+            />
+          </div>
+          <dib class="btns-container">
+            <button class="btn" onclick="addition()">Сложить</button>
+            <button class="btn" onclick="subtraction()">Вычесть</button>
+            <button class="btn" onclick="multiplication()">Умножить</button>
+            <button class="btn" onclick="division()">Разделить</button>
+          </dib>
+          <div class="result">
+            <span>Результат: </span><span id="result"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
