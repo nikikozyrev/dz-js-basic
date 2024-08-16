@@ -27,26 +27,27 @@ const toDoList = {
       });
     }
   },
-  findIndexTask(id) {
-    return this.tasks.findIndex((el) => el.id === id);
-  },
   deleteTask(id) {
-    if (!this.findIndexTask(id)) {
+    if (!this.tasks.findIndex((el) => el.id === id)) {
       console.log(`Элемента с id=${id} не существует`);
       return;
     } else {
-      this.tasks.splice(this.findIndexTask(id), 1);
+      this.tasks.splice(
+        this.tasks.findIndex((el) => el.id === id),
+        1
+      );
     }
   },
   updateTask(id, title, priority) {
-    if (!this.findIndexTask(id)) {
+    if (!this.tasks.findIndex((el) => el.id === id)) {
       console.log(`Элемента с id=${id} не существует`);
       return;
     } else if (!title || !priority) {
       console.log("Введите заголовок и приоритет!");
     } else {
-      this.tasks[this.findIndexTask(id)].title = title;
-      this.tasks[this.findIndexTask(id)].priority = priority;
+      this.tasks[this.tasks.findIndex((el) => el.id === id)].title = title;
+      this.tasks[this.tasks.findIndex((el) => el.id === id)].priority =
+        priority;
     }
   },
   sortTasks(sortType, sortOrder) {
@@ -60,9 +61,7 @@ const toDoList = {
   },
 };
 
-//
-
-const newToDoList = {
+const newTask = {
   tasks: [
     {
       title: "Помыть посуду",
@@ -71,55 +70,32 @@ const newToDoList = {
       priority: 1,
     },
   ],
-  addTask(title, description, priority) {
-    if (!title || !priority || !description) {
-      console.log("Введите заголовок, описание и приоритет!");
-    } else {
-      this.tasks.push({
-        title,
-        description,
-        id: idCount(),
-        priority,
-      });
-    }
-  },
-  updateTask(id, title, description, priority) {
-    if (!this.findIndexTask(id)) {
-      console.log(`Элемента с id=${id} не существует`);
-      return;
-    } else if (!title || !priority || !description) {
-      console.log("Введите заголовок, описание и приоритет!");
-    } else {
-      this.tasks[this.findIndexTask(id)].title = title;
-      this.tasks[this.findIndexTask(id)].priority = priority;
-      this.tasks[this.findIndexTask(id)].description = description;
-    }
-  },
 };
 
-newToDoList.findIndexTask = toDoList.findIndexTask.bind(newToDoList);
-newToDoList.deleteTask = toDoList.deleteTask.bind(newToDoList);
-newToDoList.sortTasks = toDoList.sortTasks.bind(newToDoList);
+const addTask = toDoList.addTask.bind(newTask);
+const deleteTask = toDoList.deleteTask.bind(newTask);
+const sortTasks = toDoList.sortTasks.bind(newTask);
+const updateTask = toDoList.updateTask.bind(newTask);
 
-console.log("Изначальный список: ", newToDoList.tasks);
+console.log("Изначальный список: ", newTask.tasks);
 
-newToDoList.addTask("Убраться", "Описание", 10);
-newToDoList.addTask("Покушать", "Описание", 3);
-newToDoList.addTask("Покататься", "Описание", 5);
-newToDoList.addTask("Сделать домашку", "Описание", 8);
-console.log("Добавили 4 задачи: ", newToDoList.tasks);
+addTask("Убраться", 10);
+addTask("Покушать", 3);
+addTask("Покататься", 5);
+addTask("Сделать домашку", 8);
+console.log("Добавили 4 задачи: ", newTask.tasks);
 
-newToDoList.deleteTask(3);
-console.log("Удалили задачу с id = 3: ", newToDoList.tasks);
+deleteTask(3);
+console.log("Удалили задачу с id = 3: ", newTask.tasks);
 
-newToDoList.updateTask(4, "Тренировка", "Описание", 7);
-console.log("Обновили задачу с id = 4: ", newToDoList.tasks);
+updateTask(4, "Тренировка", 7);
+console.log("Обновили задачу с id = 4: ", newTask.tasks);
 
-newToDoList.sortTasks(sortTypePriority, sortLowToHigh);
-console.log("Сортировка по priority по возрастанию: ", newToDoList.tasks);
-newToDoList.sortTasks(sortTypeId, sortHighToLow);
-console.log("Сортировка по id по убыванию: ", newToDoList.tasks);
-newToDoList.sortTasks(sortTypePriority, sortHighToLow);
-console.log("Сортировка по priority по убыванию: ", newToDoList.tasks);
-newToDoList.sortTasks(sortTypeId, sortLowToHigh);
-console.log("Сортировка по id по возрастанию: ", newToDoList.tasks);
+sortTasks(sortTypePriority, sortLowToHigh);
+console.log("Сортировка по priority по возрастанию: ", newTask.tasks);
+sortTasks(sortTypeId, sortHighToLow);
+console.log("Сортировка по id по убыванию: ", newTask.tasks);
+sortTasks(sortTypePriority, sortHighToLow);
+console.log("Сортировка по priority по убыванию: ", newTask.tasks);
+sortTasks(sortTypeId, sortLowToHigh);
+console.log("Сортировка по id по возрастанию: ", newTask.tasks);
